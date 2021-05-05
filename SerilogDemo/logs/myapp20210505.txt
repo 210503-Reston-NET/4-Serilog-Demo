@@ -1,0 +1,5 @@
+2021-05-05 16:42:50.660 -04:00 [INF] Hello, world!
+2021-05-05 16:42:50.704 -04:00 [DBG] Dividing 10 by 0
+2021-05-05 16:42:50.707 -04:00 [ERR] Something went wrong
+System.DivideByZeroException: Attempted to divide by zero.
+   at SerilogDemo.Program.Main(String[] args) in /home/dione/lang/dotNET/4-Serilog-Demo/SerilogDemo/Program.cs:line 21
