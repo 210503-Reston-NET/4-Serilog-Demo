@@ -1,9 +1,6 @@
-﻿using System.Globalization;
-using System;
+﻿using System;
 using Serilog;
-using System.IO;
 using _2ndproject;
-using System.Reflection;
 namespace SerilogDemo
 {
     class Program
@@ -11,21 +8,27 @@ namespace SerilogDemo
         static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.Verbose()
                 .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Properties:j} {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+
+            Class1 testclass = new Class1();
 
             /// <summary>
             /// One way to add Context
             /// </summary>
             var myLog = Log.ForContext<Program>();
-            myLog.Information("Here is a log with context");
+            myLog.Information("Here is a log with context from the main method");
+            Log.Information("Here is a log with no context from the same place");
 
-            Log.Information("Hello, world! No context");
+            //run test 2 from 2nd class
+            testclass.test2();
 
-            Class1 testclass = new Class1();
-            testclass.test();
+            //run test 1 from 2nd class
+            testclass.test1();
+            Console.WriteLine();           
+            
 
             //with Exceptions
             int a = 10, b = 0;
@@ -36,11 +39,11 @@ namespace SerilogDemo
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Something went wrong");
+                Log.Error(ex, "Something went wrong and an exception was thrown");
             }
             finally
             {
-                Log.CloseAndFlush();
+               Log.CloseAndFlush();
             }
 
         }
